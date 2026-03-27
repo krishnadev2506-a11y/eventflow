@@ -13,6 +13,19 @@ declare module "next-auth" {
   }
 }
 
+export interface Session {
+  id: string;
+  title: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Speaker {
+  id: string;
+  name: string;
+  bio: string;
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -24,6 +37,9 @@ export interface Event {
   status: 'DRAFT' | 'PUBLISHED' | 'CANCELLED' | 'COMPLETED';
   adminId: string;
   createdAt: string;
+  category?: string;
+  sessions?: Session[];
+  speakers?: Speaker[];
 }
 
 export interface Ticket {

@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, MapPin, Clock, Users, ArrowLeft, Star, Ticket } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Calendar, MapPin, Clock, Users, ArrowLeft, Star } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Event } from "@/types/next-auth";
 
 function Countdown({ targetDate }: { targetDate: string }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -53,18 +54,18 @@ export default function EventDetailPage() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 200]);
 
-  const [event, setEvent] = useState<any>(null);
+  const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/events/${id}`)
       .then(res => res.json())
       .then(data => { setEvent(data); setLoading(false); })
-      .catch(err => setLoading(false));
+      .catch(() => setLoading(false));
   }, [id]);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-background text-neon"><div className="animate-pulse text-2xl font-bold">Initializing Uplink...</div></div>;
-  if (!event || event.error) return <div className="min-h-screen flex items-center justify-center bg-background text-silver"><Link href="/events"><Button variant="outline">Event Not Found</Button></Link></div>;
+  if (!event || (event as { error?: string }).error) return <div className="min-h-screen flex items-center justify-center bg-background text-silver"><Link href="/events"><Button variant="outline">Event Not Found</Button></Link></div>;
 
   return (
     <div className="relative min-h-screen bg-background pb-24">
@@ -103,7 +104,7 @@ export default function EventDetailPage() {
               <div className="space-y-6">
                 <h2 className="text-3xl font-heading font-bold text-white">Event Schedule</h2>
                 <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
-                  {event.sessions.map((session: any, idx: number) => (
+                  {event.sessions.map((session) => (
                     <div key={session.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                       <div className="flex items-center justify-center w-10 h-10 rounded-full border border-neon bg-navy shadow-[0_0_10px_var(--color-neon)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                         <Clock size={16} className="text-neon" />
@@ -123,7 +124,7 @@ export default function EventDetailPage() {
               <div className="space-y-6">
                 <h2 className="text-3xl font-heading font-bold text-white">Guest Speakers</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {event.speakers.map((speaker: any) => (
+                  {event.speakers.map((speaker) => (
                     <div key={speaker.id} className="group perspective-1000 h-80">
                       <div className="relative w-full h-full transition-transform duration-700 preserve-3d group-hover:rotate-y-180 cursor-pointer">
                         <div className="absolute inset-0 backface-hidden glass rounded-xl flex flex-col items-center justify-center p-6 border-lunar/30">

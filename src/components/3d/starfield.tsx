@@ -5,7 +5,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-function Stars(props: any) {
+interface StarsProps {
+  [key: string]: unknown;
+}
+
+function Stars(props: StarsProps) {
   const ref = useRef<THREE.Points>(null!);
   const [positions, setPositions] = useState<Float32Array>(new Float32Array(0));
   

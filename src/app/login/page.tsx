@@ -34,7 +34,7 @@ export default function LoginPage() {
         router.push("/dashboard");
         router.refresh(); // Force refresh to update navigation states
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setIsPending(false);

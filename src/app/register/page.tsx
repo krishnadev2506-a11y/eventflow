@@ -33,7 +33,7 @@ export default function RegisterPage() {
         const data = await res.json();
         setError(data.error || "Failed to register");
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setIsPending(false);

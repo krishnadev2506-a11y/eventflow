@@ -4,7 +4,7 @@ export function cn(...classes: (string | undefined | null | false | Record<strin
       if (typeof c === "string") return c;
       if (typeof c === "object" && c !== null) {
         return Object.entries(c)
-          .filter(([_, value]) => value)
+          .filter(([, value]) => value)
           .map(([key]) => key);
       }
       return [];

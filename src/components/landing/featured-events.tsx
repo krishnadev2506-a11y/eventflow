@@ -6,7 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users } from "lucide-react";
 import Link from "next/link";
 
-export function FeaturedEvents({ liveEvents = [] }: { liveEvents?: any[] }) {
+interface UIEvent {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  spots: number;
+  totalSpots: number;
+  price: string;
+  category: string;
+}
+
+export function FeaturedEvents({ liveEvents = [] }: { liveEvents?: UIEvent[] }) {
   return (
     <section className="py-24 px-6 relative z-10 w-full max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-12">

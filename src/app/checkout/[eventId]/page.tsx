@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Starfield } from "@/components/3d/starfield";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CreditCard, CheckCircle, ShieldCheck, Lock } from "lucide-react";
+import { CheckCircle, ShieldCheck, Lock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";

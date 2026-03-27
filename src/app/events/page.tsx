@@ -17,11 +17,29 @@ const mockEvents = [
   { id: "6", title: "Gravity Defying Design", date: "2027-03-10T10:00:00", location: "London, UK", spots: 5, totalSpots: 100, price: "₹1200", category: "Design" },
 ];
 
+interface UIEvent {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  spots: number;
+  totalSpots: number;
+  price: string;
+  category: string;
+}
+
 export default function EventsPage() {
   const [search, setSearch] = useState("");
   const [mapView, setMapView] = useState(false);
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<UIEvent[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const filteredEvents = events.filter(
+    (event) =>
+      event.title.toLowerCase().includes(search.toLowerCase()) ||
+      event.location.toLowerCase().includes(search.toLowerCase()) ||
+      event.category.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     fetch('/api/events')
@@ -44,7 +62,9 @@ export default function EventsPage() {
           setEvents(mockEvents);
         }
       })
-      .catch(() => setEvents(mockEvents))
+      .catch(() => {
+        setEvents(mockEvents);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -84,7 +104,7 @@ export default function EventsPage() {
             Array(6).fill(0).map((_, i) => (
               <div key={i} className="h-96 rounded-2xl bg-white/5 animate-pulse border border-white/10" />
             ))
-          ) : events.map((event, i) => {
+          ) : filteredEvents.map((event, i) => {
             const fillPercentage = ((event.totalSpots - event.spots) / event.totalSpots) * 100;
             return (
               <motion.div

@@ -7,8 +7,9 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
 
-export function Navbar({ session }: { session?: any }) {
+export function Navbar({ session }: { session?: Session | null }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
