@@ -16,6 +16,7 @@ export default async function Home() {
     date: ev.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
     location: ev.location,
     spots: ev.capacity,
+    totalSpots: ev.capacity,
     price: `₹${ev.price}`,
     category: "Featured"
   }));
